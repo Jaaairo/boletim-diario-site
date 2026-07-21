@@ -225,15 +225,14 @@
              padding: 4px 12px; cursor: pointer; }
   .tts-btn:hover { background: var(--acento); border-color: var(--acento); color: #fff; }
   .tts-bar[hidden] { display: none; }
-  /* Podcast do dia — dois apresentadores */
-  .podcast-card { background: var(--panel); border: 1px solid var(--border);
-                  border-left: 4px solid var(--acento); border-radius: 8px;
-                  padding: 16px 18px; margin-bottom: 28px; }
-  .podcast-hd { font-weight: 700; font-size: 18px; color: var(--azul);
-                display: flex; align-items: center; gap: 8px; }
-  .podcast-ico { font-size: 20px; }
-  .podcast-sub { color: var(--texto2); font-size: 14px; margin: 4px 0 12px; }
-  .podcast-audio { width: 100%; }
+  /* Jornal do dia — area "Ouca Agora" (fundo escuro, compacta) */
+  .podcast-card { background: var(--azul); border-radius: 8px;
+                  padding: 12px 16px 14px; margin-bottom: 24px; }
+  .podcast-hd { font-weight: 700; font-size: 14px; letter-spacing: .03em;
+                text-transform: uppercase; color: #fff; margin-bottom: 8px; }
+  .podcast-audio { width: 100%; height: 40px; display: block; }
+  /* Com podcast, o card ja separa visualmente: dispensa a linha abaixo dos numeros */
+  .cards.com-podcast { border-bottom: none; padding-bottom: 0; margin-bottom: 20px; }
 </style>
 </head>
 <body>
@@ -385,8 +384,7 @@ function renderPodcast() {
   if (!p || !p.arquivo) return "";
   const src = p.arquivo + (p.versao ? "?v=" + encodeURIComponent(p.versao) : "");
   return `<div class="podcast-card">
-    <div class="podcast-hd"><span class="podcast-ico">&#127908;</span> Jornal do dia</div>
-    <div class="podcast-sub">Dois &acirc;ncoras apresentam as not&iacute;cias de hoje.</div>
+    <div class="podcast-hd">Ou&ccedil;a Agora</div>
     <audio class="podcast-audio" controls preload="none" src="${esc(src)}"></audio>
   </div>`;
 }
@@ -428,7 +426,8 @@ const abas = {
   resumo: { rotulo: "Resumo do Dia", render() {
     drillCounter = 0;
     const st = D.stats;
-    return `<div class="cards">
+    const temPodcast = D.podcast && D.podcast.arquivo;
+    return `<div class="cards${temPodcast ? ' com-podcast' : ''}">
       <div class="card"><div class="num">${st.noticias_novas}</div><div class="rot">notícias coletadas</div></div>
       <div class="card"><div class="num">${st.resumos_gerados}</div><div class="rot">resumos gerados</div></div>
     </div>
